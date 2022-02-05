@@ -1,6 +1,7 @@
 package com.fse.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product {
 	@Transient
 	public static final String SEQUENCE_NAME = "prod_seq";
+	@Transient
+	static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
 	@Id
 	private String id;
 	private String productId;
@@ -29,7 +32,7 @@ public class Product {
 	private Seller seller;
 
 	public Product(String productId, @NotNull @NotEmpty @Size(min = 5, max = 30) String prodName,
-			String shortDescription, String longDescription, String category, double price, LocalDate bidEndDate,
+			String shortDescription, String longDescription, String category, double price, String bidEndDate,
 			Seller seller) {
 		this.productId = productId;
 		this.prodName = prodName;
@@ -37,7 +40,7 @@ public class Product {
 		this.longDescription = longDescription;
 		this.category = category;
 		this.price = price;
-		this.bidEndDate = bidEndDate;
+		this.bidEndDate = LocalDate.parse(bidEndDate, dateTimeFormatter);
 		this.seller = seller;
 	}
 
@@ -96,8 +99,8 @@ public class Product {
 		return bidEndDate;
 	}
 
-	public void setBidEndDate(LocalDate bidEndDate) {
-		this.bidEndDate = bidEndDate;
+	public void setBidEndDate(String bidEndDate) {
+		this.bidEndDate = LocalDate.parse(bidEndDate, dateTimeFormatter);
 	}
 
 	public Seller getSeller() {

@@ -23,7 +23,7 @@ import com.fse.model.Product;
 import com.fse.service.SellerService;
 
 @RestController
-@RequestMapping("api/v1/seller")
+@RequestMapping("e-auction/api/v1/seller")
 public class SellerController {
 
 	@Autowired
